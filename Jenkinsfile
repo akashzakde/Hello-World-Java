@@ -72,7 +72,7 @@ pipeline{
         }
         stage('Trigger CD Pipeline'){
             steps{
-                sh "curl -v -k --user admin:11bf95d3b7de2e69bb16e978e2825ac77c -X POST -H 'cache-control: no-cache' -H 'content_type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://13.233.254.9:8080/job/Infra-CD-Pipeline/buildWithParameters?token=Jenkins-CD-Token'"
+                sh "curl -v -k --user admin:11bf95d3b7de2e69bb16e978e2825ac77c -X POST -H 'cache-control: no-cache' -H 'content_type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://http://65.2.172.158/:8080/job/Infra-CD-Pipeline/buildWithParameters?token=Jenkins-CD-Token'"
             }
         }
     }
