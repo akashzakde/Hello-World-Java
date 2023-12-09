@@ -14,9 +14,27 @@ pipeline{
     stages{
         stage('Fetch Code'){
             steps{
-                git branch: 'main', url: 'https://github.com/akashzakde/simple-java-app.git'
+                git branch: 'main', url: 'https://github.com/akashzakde/Hello-World-Java.git'
             }
         }
+        stage('Code Analysis'){
+            steps{
+                withSonarQubeEnv(credentialsId: 'sonarqube-creds',installationName: 'sonarqube') {
+                sh '''mvn clean verify sonar:sonar \
+                    -Dsonar.projectKey=Java-Project \
+                    -Dsonar.projectName='Java-Project' \
+                    -Dsonar.host.url=http://172.31.4.11:9000 \
+                    -Dsonar.token=sqp_156397e53f4007d40e1a790c9ffebbe0442cace1'''
+                    }
+                }
+            }
+        stage('QualityGate Result'){
+            steps {
+                    timeout(time: 1, unit: 'HOURS'){
+                    waitForQualityGate abortPipeline: true
+                    }
+                }
+            }
         stage('Build Code'){
             steps{
                 sh 'mvn clean -DskipTests package'
